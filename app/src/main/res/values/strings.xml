@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Mark</string>
     <string name="title_activity_maps">You\'re Here</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="navi_drawer_map">Map</string>
+    <string name="navi_drawer_marks">Marks</string>
+    <string name="title_activity_mark">Markers</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

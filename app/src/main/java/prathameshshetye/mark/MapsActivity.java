@@ -1,5 +1,6 @@
 package prathameshshetye.mark;
 
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,6 +13,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -81,6 +84,8 @@ public class MapsActivity extends FragmentActivity {
     }
 
     private void setUpMap() {
+        Geocoder geo = new Geocoder(this.getApplicationContext(), Locale.getDefault());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.483430, -101.993125), 1));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.setBuildingsEnabled(true);
         mMap.setIndoorEnabled(true);
