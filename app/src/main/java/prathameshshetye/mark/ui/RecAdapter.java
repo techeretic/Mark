@@ -1,5 +1,6 @@
 package prathameshshetye.mark.ui;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private int mSelected;
 
     private List<DrawerItems> mDrawerItems;
     private String mTitle;
@@ -92,4 +94,5 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
+
 }

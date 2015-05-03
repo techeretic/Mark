@@ -1,5 +1,9 @@
 package prathameshshetye.mark.ui;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,8 +22,10 @@ import java.util.List;
 import prathameshshetye.mark.R;
 import prathameshshetye.mark.Utilities.Log;
 
-public class MarkActivity extends AppCompatActivity {
-    private Toolbar mToolbar;                              // Declaring the Toolbar Object
+public class MarkActivity extends AppCompatActivity implements
+                            MapsFragment.OnFragmentInteractionListener,
+                            Markers.OnFragmentInteractionListener {
+    private boolean mIsMap = true;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -37,8 +43,6 @@ public class MarkActivity extends AppCompatActivity {
         drawerItems.add(new DrawerItems(getString(R.string.navi_drawer_map), R.drawable.ic_maps));
         drawerItems.add(new DrawerItems(getString(R.string.navi_drawer_marks), R.drawable.ic_bookmark));
 
-        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(mToolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         mRecyclerView.setHasFixedSize(true);
 
@@ -47,9 +51,10 @@ public class MarkActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mDrawer = (DrawerLayout) findViewById(R.id.DrawerLayout);
+        mDrawer.openDrawer(mRecyclerView);
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawer,
-                mToolbar,
+                null, //ToolBar
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close) {
 
@@ -73,9 +78,16 @@ public class MarkActivity extends AppCompatActivity {
                 mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Log.LogThis("Position clicked on : " + position);
                 TextView tv = (TextView) view.findViewById(R.id.rowText);
                 if (tv != null) {
+                    if (tv.getText().toString().equals(getString(R.string.navi_drawer_map)))
+                        mIsMap = true;
+                    else
+                        mIsMap = false;
                     Log.LogThis("Clicked on : " + tv.getText().toString());
+                    loadFragment();
+                    mDrawer.closeDrawers();
                 }
             }
 
@@ -84,6 +96,7 @@ public class MarkActivity extends AppCompatActivity {
 
             }
         }));
+        loadFragment();
     }
 
     @Override
@@ -106,5 +119,26 @@ public class MarkActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadFragment() {
+
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment frag = mIsMap ? new MapsFragment() : new Markers();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, frag)
+                .commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        //Do Something
+    }
+
+    @Override
+    public void openDrawer() {
+        if (mDrawer != null) {
+            mDrawer.openDrawer(mRecyclerView);
+        }
     }
 }
