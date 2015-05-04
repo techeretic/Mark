@@ -1,5 +1,7 @@
 package prathameshshetye.mark;
 
+import android.content.Context;
+import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +20,7 @@ import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity {
 
+    private Context mContext;
     private final int LOCATION_REFRESH_TIME = 36000;
     private final int LOCATION_REFRESH_DISTANCE = 1000;
     private final String LOG_TAG = "MapChecker";
@@ -55,6 +58,7 @@ public class MapsActivity extends FragmentActivity {
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
 
+        mContext = this;
         setUpMapIfNeeded();
     }
 
@@ -96,6 +100,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 mMap.addMarker(new MarkerOptions().position(latLng).title("Marked"));
+                startActivity(new Intent(mContext, prathameshshetye.mark.ui.MarkActivity.class));
             }
         });
     }
@@ -108,5 +113,11 @@ public class MapsActivity extends FragmentActivity {
         mMap.getUiSettings().setAllGesturesEnabled(true);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 18));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        prathameshshetye.mark.Utilities.Log.LogThis("MapsActivity Getting Destroyed");
     }
 }

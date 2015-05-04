@@ -12,6 +12,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="marker_add">Add Marker</string>
+    <string name="marker_tag">Location Name</string>
+    <string name="marker_descrip">Description</string>
+    <string name="marker_camera">Add Image</string>
+    <string name="marker_lat">Latitude</string>
+    <string name="marker_lng">Longitude</string>
 </resources>

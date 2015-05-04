@@ -24,7 +24,8 @@ import prathameshshetye.mark.Utilities.Log;
 
 public class MarkActivity extends AppCompatActivity implements
                             MapsFragment.OnFragmentInteractionListener,
-                            Markers.OnFragmentInteractionListener {
+                            Markers.OnFragmentInteractionListener,
+                            AddMarker.OnFragmentInteractionListener {
     private boolean mIsMap = true;
 
     private RecyclerView mRecyclerView;
@@ -122,11 +123,11 @@ public class MarkActivity extends AppCompatActivity implements
     }
 
     private void loadFragment() {
-
         FragmentManager fragmentManager = getFragmentManager();
         Fragment frag = mIsMap ? new MapsFragment() : new Markers();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, frag)
+                .addToBackStack(mIsMap ? "MapFragment" : "Markers")
                 .commit();
     }
 
@@ -140,5 +141,21 @@ public class MarkActivity extends AppCompatActivity implements
         if (mDrawer != null) {
             mDrawer.openDrawer(mRecyclerView);
         }
+    }
+
+    @Override
+    public void startAddMarkerFragment(float lat, float lng) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, AddMarker.newInstance(lat, lng))
+                .addToBackStack("AddMarker")
+                .commit();
+    }
+
+    @Override
+    public void endFragment(Fragment frag) {
+        Log.LogThis("in endFragment in Activity");
+        getFragmentManager().beginTransaction().remove(frag).commit();
+        loadFragment();
     }
 }

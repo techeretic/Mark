@@ -144,6 +144,9 @@ public class MapsFragment extends Fragment implements
                     @Override
                     public void onMapLongClick(LatLng latLng) {
                         mMap.addMarker(new MarkerOptions().position(latLng).title("Marked"));
+                        if (mListener != null) {
+                            mListener.startAddMarkerFragment((float)latLng.latitude, (float)latLng.longitude);
+                        }
                     }
                 });
 
@@ -246,6 +249,7 @@ public class MapsFragment extends Fragment implements
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+        public void startAddMarkerFragment(float lat, float lng);
     }
 
     @Override
