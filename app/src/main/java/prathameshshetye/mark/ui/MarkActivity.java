@@ -1,7 +1,7 @@
 package prathameshshetye.mark.ui;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -123,9 +123,11 @@ public class MarkActivity extends AppCompatActivity implements
     }
 
     private void loadFragment() {
-        FragmentManager fragmentManager = getFragmentManager();
+        Log.LogThis("In LoadFragment " + getSupportFragmentManager().getBackStackEntryCount());
+        FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment frag = mIsMap ? new MapsFragment() : new Markers();
         fragmentManager.beginTransaction()
+                .add(frag, mIsMap ? "MapFragment" : "Markers")
                 .replace(R.id.container, frag)
                 .addToBackStack(mIsMap ? "MapFragment" : "Markers")
                 .commit();
@@ -145,7 +147,7 @@ public class MarkActivity extends AppCompatActivity implements
 
     @Override
     public void startAddMarkerFragment(float lat, float lng) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, AddMarker.newInstance(lat, lng))
                 .addToBackStack("AddMarker")
@@ -155,7 +157,13 @@ public class MarkActivity extends AppCompatActivity implements
     @Override
     public void endFragment(Fragment frag) {
         Log.LogThis("in endFragment in Activity");
-        getFragmentManager().beginTransaction().remove(frag).commit();
-        loadFragment();
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void checkIfNeedToExit() {
+        if (getSupportFragmentManager().getBackStackEntryCount()==0) {
+            finish();
+        }
     }
 }

@@ -3,7 +3,7 @@ package prathameshshetye.mark.ui;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -120,7 +120,7 @@ public class AddMarker extends Fragment {
         }
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         if (getView() != null) {
@@ -138,5 +138,5 @@ public class AddMarker extends Fragment {
                 }
             });
         }
-    }
+    }*/
 }

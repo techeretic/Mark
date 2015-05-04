@@ -7,7 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.preference.PreferenceManager;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -180,6 +180,13 @@ public class MapsFragment extends Fragment implements
         if (mMap != null) {
             mCamPos = mMap.getCameraPosition();
         }
+        if (mMapView != null) {
+            Log.LogThis("in OnPause - MapsFragment");
+            mMapView.onPause();
+        }
+        if(mListener != null) {
+            mListener.checkIfNeedToExit();
+        }
     }
 
     @Override
@@ -187,6 +194,7 @@ public class MapsFragment extends Fragment implements
         if (mMapView != null) {
             mMapView.onResume();
         }
+        Log.LogThis("in OnResume - MapsFragment");
         super.onResume();
     }
 
@@ -247,9 +255,9 @@ public class MapsFragment extends Fragment implements
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-        public void startAddMarkerFragment(float lat, float lng);
+        void onFragmentInteraction(Uri uri);
+        void startAddMarkerFragment(float lat, float lng);
+        void checkIfNeedToExit();
     }
 
     @Override
