@@ -35,7 +35,7 @@ public class Markers extends Fragment {
         View view = inflater.inflate(R.layout.fragment_markers, container, false);
         mToolbar = (Toolbar) view.findViewById(R.id.tool_bar);
         mToolbar.setTitle(R.string.title_activity_mark);
-        mToolbar.setNavigationIcon(R.drawable.ic_bookmark);
+        mToolbar.setNavigationIcon(R.drawable.ic_mark_white);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

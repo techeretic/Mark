@@ -1,18 +1,35 @@
 package prathameshshetye.mark.ui;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+
 import prathameshshetye.mark.R;
+import prathameshshetye.mark.Utilities.FloatingActionButton;
 import prathameshshetye.mark.Utilities.Log;
+import prathameshshetye.mark.Utilities.NotifAnimator;
+import prathameshshetye.mark.database.Marker;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,11 +41,17 @@ public class AddMarker extends Fragment {
 
     private static final String ARG_LAT="lat";
     private static final String ARG_LNG="lng";
+    private static final int REQUEST_CODE_CAPTURE_IMAGE = 1;
 
     private OnFragmentInteractionListener mListener;
     private Toolbar mToolbar;
     private float mLat;
     private float mLng;
+    private FloatingActionButton mFAddButton;
+    private Marker mHostMarker;
+    private LinearLayout mAddCamera;
+    private TextView mCamera;
+    private ImageView mResultImage;
 
     public AddMarker() {
         // Required empty public constructor
@@ -71,10 +94,32 @@ public class AddMarker extends Fragment {
 
         lat.setText(Float.toString(mLat));
         lng.setText(Float.toString(mLng));
+        mFAddButton = new FloatingActionButton.Builder(getActivity())
+                .withDrawable(getResources().getDrawable(R.drawable.ic_content_save))
+                .withButtonColor(getResources().getColor(R.color.accent))
+                .withGravity(Gravity.BOTTOM | Gravity.END).withMargins(0, 0, 15, 15).create();
+
+        NotifAnimator.animateFAB(getActivity(), mFAddButton, NotifAnimator.IN,
+                NotifAnimator.BOTTOM);
+
+        mFAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.LogThis("Saving the Marker");
+            }
+        });
+        mAddCamera = (LinearLayout) view.findViewById(R.id.addCamera);
+        mAddCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCamera();
+            }
+        });
+        mCamera = (TextView) view.findViewById(R.id.add_camera_txt);
+        mResultImage = (ImageView) view.findViewById(R.id.resultImage);
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -86,6 +131,7 @@ public class AddMarker extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            mHostMarker = new Marker();
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -120,23 +166,54 @@ public class AddMarker extends Fragment {
         }
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        if (getView() != null) {
-            getView().setFocusableInTouchMode(true);
-            getView().requestFocus();
-            getView().setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                        endFragment();
-                        return true;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_CAPTURE_IMAGE:
+                // Called after a photo has been taken.
+                if (resultCode == Activity.RESULT_OK) {
+                    // Store the image data as a bitmap for writing later.
+                    Bitmap bitmapToSave = (Bitmap) data.getExtras().get("data");
+                    Log.LogThis("Camera Returned with Image Width : " + bitmapToSave.getWidth());
+                    Log.LogThis("Camera Returned with Image Height : " + bitmapToSave.getHeight());
+                    ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
+                    bitmapToSave.compress(Bitmap.CompressFormat.PNG, 100, bitmapStream);
+                    if (mHostMarker != null) {
+                        mHostMarker.setImage(bitmapStream.toByteArray());
+                        Log.LogThis("Camera Returned with Image Size : " + mHostMarker.getImage().length);
                     }
-                    return false;
+                    //mAddCamera.setVisibility(View.GONE);
+                    mCamera.setText(getText(R.string.marker_camera_upd));
+                    BitmapDrawable bm = new BitmapDrawable(getResources(),bitmapToSave);
+                    bm.setColorFilter(new PorterDuffColorFilter(Color.argb(150, 0, 0, 0), PorterDuff.Mode.SRC_ATOP));
+                    mToolbar.setBackground(bm);
                 }
-            });
+                break;
         }
-    }*/
+    }
+
+    /*@Override
+        public void onResume() {
+            super.onResume();
+            if (getView() != null) {
+                getView().setFocusableInTouchMode(true);
+                getView().requestFocus();
+                getView().setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                        if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                            endFragment();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            }
+        }*/
+    private void startCamera() {
+        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),
+                REQUEST_CODE_CAPTURE_IMAGE);
+    }
+
 }

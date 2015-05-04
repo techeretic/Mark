@@ -274,4 +274,13 @@ public class MapsFragment extends Fragment implements
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.LogThis("Connection Failed");
     }
+
+    private void applyMarkers() {
+        if (mMarkers == null) {
+            return;
+        }
+        for(Marker m : mMarkers) {
+
+        }
+    }
 }

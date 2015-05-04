@@ -16,7 +16,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             android:elevation="4dp"
             android:navigationIcon="@drawable/ic_navigation_arrow_back"
-            android:paddingBottom="20dp">
+            android:paddingBottom="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/marker_tag"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -44,7 +44,7 @@
                     android:id="@+id/marker_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:inputType="textShortMessage|textMultiLine|textCapSentences" />
@@ -54,7 +54,7 @@
                     android:textColorHint="@color/secondary_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -69,7 +69,8 @@
             android:orientation="horizontal"
             android:padding="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp">
+            android:layout_marginEnd="10dp"
+            android:id="@+id/addCamera">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/marker_camera"
+                android:id="@+id/add_camera_txt"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
@@ -142,5 +144,11 @@
                     android:textColor="@color/hint_text"/>
             </LinearLayout>
         </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:id="@+id/resultImage" />
     </LinearLayout>
 </FrameLayout>
