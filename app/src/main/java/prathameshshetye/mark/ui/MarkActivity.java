@@ -127,7 +127,6 @@ public class MarkActivity extends AppCompatActivity implements
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment frag = mIsMap ? new MapsFragment() : new Markers();
         fragmentManager.beginTransaction()
-                .add(frag, mIsMap ? "MapFragment" : "Markers")
                 .replace(R.id.container, frag)
                 .addToBackStack(mIsMap ? "MapFragment" : "Markers")
                 .commit();

@@ -29,6 +29,7 @@ import prathameshshetye.mark.R;
 import prathameshshetye.mark.Utilities.FloatingActionButton;
 import prathameshshetye.mark.Utilities.Log;
 import prathameshshetye.mark.Utilities.NotifAnimator;
+import prathameshshetye.mark.database.DatabaseHelper;
 import prathameshshetye.mark.database.Marker;
 
 /**
@@ -42,6 +43,7 @@ public class AddMarker extends Fragment {
     private static final String ARG_LAT="lat";
     private static final String ARG_LNG="lng";
     private static final int REQUEST_CODE_CAPTURE_IMAGE = 1;
+    private boolean mDoSave = false;
 
     private OnFragmentInteractionListener mListener;
     private Toolbar mToolbar;
@@ -51,7 +53,7 @@ public class AddMarker extends Fragment {
     private Marker mHostMarker;
     private LinearLayout mAddCamera;
     private TextView mCamera;
-    private ImageView mResultImage;
+    private com.melnykov.fab.FloatingActionButton mSaveButton;
 
     public AddMarker() {
         // Required empty public constructor
@@ -94,18 +96,12 @@ public class AddMarker extends Fragment {
 
         lat.setText(Float.toString(mLat));
         lng.setText(Float.toString(mLng));
-        mFAddButton = new FloatingActionButton.Builder(getActivity())
-                .withDrawable(getResources().getDrawable(R.drawable.ic_content_save))
-                .withButtonColor(getResources().getColor(R.color.accent))
-                .withGravity(Gravity.BOTTOM | Gravity.END).withMargins(0, 0, 15, 15).create();
-
-        NotifAnimator.animateFAB(getActivity(), mFAddButton, NotifAnimator.IN,
-                NotifAnimator.BOTTOM);
-
-        mFAddButton.setOnClickListener(new View.OnClickListener() {
+        mSaveButton = (com.melnykov.fab.FloatingActionButton) view.findViewById(R.id.fab);
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.LogThis("Saving the Marker");
+                saveMarker();
             }
         });
         mAddCamera = (LinearLayout) view.findViewById(R.id.addCamera);
@@ -116,7 +112,6 @@ public class AddMarker extends Fragment {
             }
         });
         mCamera = (TextView) view.findViewById(R.id.add_camera_txt);
-        mResultImage = (ImageView) view.findViewById(R.id.resultImage);
         return view;
     }
 
@@ -216,4 +211,10 @@ public class AddMarker extends Fragment {
                 REQUEST_CODE_CAPTURE_IMAGE);
     }
 
+    private void saveMarker() {
+        if (mHostMarker.getImage() != null || mHostMarker.getName() != null) {
+            DatabaseHelper.getInstance(getActivity()).saveMarker(mHostMarker);
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
 }

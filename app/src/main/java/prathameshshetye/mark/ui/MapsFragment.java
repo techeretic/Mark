@@ -97,6 +97,7 @@ public class MapsFragment extends Fragment implements
     }
 
     public MapsFragment() {
+        Log.LogThis("Creating MapsFragment");
         // Required empty public constructor
     }
 

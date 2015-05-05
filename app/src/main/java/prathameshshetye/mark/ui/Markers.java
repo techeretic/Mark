@@ -4,13 +4,20 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import java.util.List;
+
 import prathameshshetye.mark.R;
+import prathameshshetye.mark.Utilities.Log;
+import prathameshshetye.mark.database.DatabaseHelper;
+import prathameshshetye.mark.database.Marker;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,8 +29,12 @@ public class Markers extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Toolbar mToolbar;
+    private RecyclerView mRecView;
+    private MarkersAdapter mMarkersAdapter;
+    private List<Marker> mMarkers;
 
     public Markers() {
+        Log.LogThis("Creating Markers");
         // Required empty public constructor
     }
 
@@ -44,10 +55,14 @@ public class Markers extends Fragment {
                 }
             }
         });
+        mMarkers = DatabaseHelper.getInstance(getActivity()).getAllMarkers();
+        mRecView = (RecyclerView) view.findViewById(R.id.RecyclerView);
+        mMarkersAdapter = new MarkersAdapter(mMarkers);
+        mRecView.setAdapter(mMarkersAdapter);
+        mRecView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.openDrawer();

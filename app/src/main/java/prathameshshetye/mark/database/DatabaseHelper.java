@@ -132,11 +132,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Marker> markerlist = new ArrayList<Marker>();
 
         String selectQuery = "SELECT "
-                + KEY_ID
-                + KEY_LAT
-                + KEY_LNG
-                + KEY_NAME
-                + KEY_DESCRIP
+                + KEY_ID + ", "
+                + KEY_LAT + ", "
+                + KEY_LNG + ", "
+                + KEY_NAME + ", "
+                + KEY_DESCRIP + ", "
                 + KEY_IMAGE + " FROM "
                 + TABLE_NAME;
 

@@ -36,9 +36,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ViewHolder> {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.drawer_item, parent, false);
             return new ViewHolder(v,viewType);
-
         } else if (viewType == TYPE_HEADER) {
-
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.drawer_header, parent, false);
             return new ViewHolder(v,viewType);

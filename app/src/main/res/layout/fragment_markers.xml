@@ -1,10 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="prathameshshetye.mark.ui.Markers">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="prathameshshetye.mark.ui.Markers">
 
     <include
         android:id="@+id/tool_bar"
         layout="@layout/default_toolbar">
     </include>
 
-</FrameLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/tool_bar"
+        android:id="@+id/RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
+</RelativeLayout>
