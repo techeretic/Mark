@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,6 +55,8 @@ public class AddMarker extends Fragment {
     private LinearLayout mAddCamera;
     private TextView mCamera;
     private com.melnykov.fab.FloatingActionButton mSaveButton;
+    private EditText mTagName;
+    private EditText mDescrip;
 
     public AddMarker() {
         // Required empty public constructor
@@ -112,6 +115,8 @@ public class AddMarker extends Fragment {
             }
         });
         mCamera = (TextView) view.findViewById(R.id.add_camera_txt);
+        mTagName = (EditText) view.findViewById(R.id.marker_tag);
+        mDescrip = (EditText) view.findViewById(R.id.marker_descrip);
         return view;
     }
 
@@ -212,7 +217,11 @@ public class AddMarker extends Fragment {
     }
 
     private void saveMarker() {
-        if (mHostMarker.getImage() != null || mHostMarker.getName() != null) {
+        if (mHostMarker.getImage() != null || !mTagName.getText().toString().isEmpty()) {
+            mHostMarker.setName(mTagName.getText().toString());
+            mHostMarker.setDescrip(mDescrip.getText().toString());
+            mHostMarker.setLatitude(mLat);
+            mHostMarker.setLongitude(mLng);
             DatabaseHelper.getInstance(getActivity()).saveMarker(mHostMarker);
             getActivity().getSupportFragmentManager().popBackStack();
         }
