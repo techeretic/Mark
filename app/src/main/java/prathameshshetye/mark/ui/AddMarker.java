@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,9 +55,9 @@ public class AddMarker extends Fragment {
     private Marker mHostMarker;
     private LinearLayout mAddCamera;
     private TextView mCamera;
-    private com.melnykov.fab.FloatingActionButton mSaveButton;
     private EditText mTagName;
     private EditText mDescrip;
+    private ImageButton mSaveButton;
 
     public AddMarker() {
         // Required empty public constructor
@@ -99,7 +100,7 @@ public class AddMarker extends Fragment {
 
         lat.setText(Float.toString(mLat));
         lng.setText(Float.toString(mLng));
-        mSaveButton = (com.melnykov.fab.FloatingActionButton) view.findViewById(R.id.fab);
+        mSaveButton = (ImageButton) view.findViewById(R.id.fab);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
